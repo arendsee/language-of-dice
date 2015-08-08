@@ -2,12 +2,11 @@
 
 #include <cstdlib>
 #include <cmath>
-using namespace std;
 
 unsigned int roll(unsigned int num, unsigned int sides){
     unsigned int sum = 0;
     for(unsigned int i = 0; i < num; i++){
-        sum += rand() % sides + 1;
+        sum += std::rand() % sides + 1;
     }
     return sum;
 }
@@ -17,7 +16,7 @@ float roll_avg(unsigned int num, unsigned int sides){
     for(unsigned int t = 0; t < BASE_TRIALS; t++){
         unsigned int sum = 0;
         for(unsigned int i = 0; i < num; i++){
-            sum += rand() % sides + 1;
+            sum += std::rand() % sides + 1;
         }
         total += sum;
     }
@@ -36,7 +35,7 @@ void roll_density(unsigned int num, unsigned int sides, float * density, unsigne
     for(unsigned int t = 0; t < trials; t++){
         unsigned int sum = 0;
         for(unsigned int i = 0; i < num; i++){
-            sum += rand() % sides + 1;
+            sum += std::rand() % sides + 1;
         }
         density[sum]++;
     }

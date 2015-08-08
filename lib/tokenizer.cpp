@@ -19,14 +19,14 @@ std::vector<std::string> get_tokens(std::string script){
         }
 
         switch(c){
-            // single character
+            case ' '  : break;
+            case '\t' : break;
+            case '\n' : break;
             case '#'  : in_comment = true;          break;
             case '('  : tokens.push_back("L_RPAR"); break;
             case ')'  : tokens.push_back("R_RPAR"); break;
             case '{'  : tokens.push_back("L_CPAR"); break;
             case '}'  : tokens.push_back("R_CPAR"); break;
-
-            // single look-ahead
             case '.'  : if(!is_numeric(cn)){
                             tokens.push_back("LAST_RESULT");
                         } else {
@@ -109,7 +109,9 @@ std::vector<std::string> get_tokens(std::string script){
                             i++;
                             break;
                         }
+            // If none of the above cases match, this must be a variable name, keyword, or mistake
             default :
+                // If it starts with a number, it mist be an INT or a DICE (e.g. 10d12)
                 if(is_numeric(c)){
                     while(i++ < script.length() && is_numeric(script[i])) {}
                     i--;
@@ -124,6 +126,7 @@ std::vector<std::string> get_tokens(std::string script){
                         tokens.push_back("INT");
                     }
                 }
+                // If it starts with a character, it must be a variable name or keyword
                 else if(is_alphabetic(c)){
                     std::string word;
                     word.append(1, c);
@@ -146,6 +149,9 @@ std::vector<std::string> get_tokens(std::string script){
                     else if(word == "yield"   ) tokens.push_back("YIELD"   );
                     else
                         tokens.push_back("VAR");  
+                }
+                else {
+                    std::cerr << "Improper character: " << c << std::endl;
                 }
             }
         }

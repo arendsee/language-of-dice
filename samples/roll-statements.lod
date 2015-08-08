@@ -1,0 +1,11 @@
+# rather than if-elif-else structures
+# run the first block that evaluates to TRUE
+roll 1d20 as x
+    x < 15  {   0 }
+    x < 19  { 1d6 }
+    x == 20 { 2d6 };
+
+# if there is no condition, return the expression value
+roll 1d20 as x
+    x < 15 {   0 }
+           { 1d6 };

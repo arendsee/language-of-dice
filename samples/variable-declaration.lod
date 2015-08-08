@@ -1,0 +1,54 @@
+# lod is strongly typed
+
+# by convention, constants are upper case, random variables lower case
+
+# here x stores a particular instance (the sum) of the random variable 2d6
+int A = 2d6;
+int B = 4
+
+# instead of summing, we can get each d6 roll, e.g. (5, 1)
+set C = 2d6
+
+# here x stores a random variable
+event a = 2d6;
+
+# everytime y is called, a random value is selected from 1d6
+'here is one instance of y: ' a;
+'here is another: ' a;
+
+# events can be arbitrarily complicated
+event b = if 1d20 > 10 { 1d8 } else { 1d8 / 2 } + B;
+event c = roll 1d20 as x
+    x + B < 15 {     0 }
+    x + B < 19 {     a }
+    x == 20    { 2 * a }
+    x + B > 19 {     a }
+
+
+
+# dice are builtin datatypes
+dice atk = 2d6
+
+# roll twice as many dice (4d6)
+atk .* 2 
+
+# roll half as many dice (1d6)
+atk ./ 2
+
+# roll one additional die
+atk .+ 1
+
+# roll one fewer die
+atk .- 1
+
+# promote dice type (2d8)
+atk++
+
+# demote dice type (2d4)
+atk--
+
+# roll with advantage?
+atk
+
+# roll with disadvantage?
+dis(atk)

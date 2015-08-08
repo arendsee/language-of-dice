@@ -1,0 +1,5 @@
+# if-else
+if 1d20 > 15 then 1d6;
+
+# or of course you can put another statement after the else
+if 1d20 > 15 then 2d6 else 1d6;

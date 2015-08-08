@@ -1,0 +1,5 @@
+# simulate a single roll of 6-sided die
+'1d6: ' 1d6;
+
+# simulate the roll of 2 8-sided dice, the output is summed
+'2d8: ' 2d8;

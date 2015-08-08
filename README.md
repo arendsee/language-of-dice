@@ -64,6 +64,8 @@ Tokens
 ======
 
 ```
+LAST_RESULT := '.'
+
 L_RPAR   :=  '('
 R_RPAR   :=  ')'
 L_CPAR   :=  '{'
@@ -77,29 +79,29 @@ BOOL     :=  true | false
 INCR     :=  '++'
 DECR     :=  '--'
 
-O_ADD    :=  '+'
-O_SUB    :=  '-'
-O_DIV    :=  '/'
-O_MUL    :=  '*'
-O_MOD    :=  '%'
+ADD    :=  '+'
+SUB    :=  '-'
+DIV    :=  '/'
+MUL    :=  '*'
+MOD    :=  '%'
 
 VAR      :=  [A-Za-z_][A-Za-z0-9_]*
 
-DECLARE  :=  '=' 
+DEC_CON  :=  '=' 
+DEC_RAN  :=  ':='
 
-A_RV     :=  ':='
-A_ADD    :=  '+='
-A_SUB    :=  '-='
-A_DIV    :=  '/='
-A_MUL    :=  '*='
-A_MOD    :=  '%='
+ASSIGN_ADD    :=  '+='
+ASSIGN_SUB    :=  '-='
+ASSIGN_DIV    :=  '/='
+ASSIGN_MUL    :=  '*='
+ASSIGN_MOD    :=  '%='
 
-C_GT     :=  '>'
-C_LT     :=  '<'
-C_E      :=  '=='
-C_NE     :=  '!='
-C_GE     :=  '>='
-C_LE     :=  '<='
+GT     :=  '>'
+LT     :=  '<'
+EQ     :=  '=='
+NE     :=  '!='
+GE     :=  '>='
+LE     :=  '<='
 
 WHILE    :=  while
 DONE     :=  done

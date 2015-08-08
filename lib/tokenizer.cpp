@@ -20,7 +20,7 @@ std::vector<std::string> get_tokens(std::string script){
 
         switch(c){
             // single character
-            case '#'  : in_comment = true;    break;
+            case '#'  : in_comment = true;          break;
             case '('  : tokens.push_back("L_RPAR"); break;
             case ')'  : tokens.push_back("R_RPAR"); break;
             case '{'  : tokens.push_back("L_CPAR"); break;
@@ -111,14 +111,13 @@ std::vector<std::string> get_tokens(std::string script){
                         }
             default :
                 if(is_numeric(c)){
-                    i++;
-                    while(is_numeric(script[i])) i++;
+                    while(i++ < script.length() && is_numeric(script[i])) {}
                     i--;
+
                     if(script[i] == 'd'){
-                        i++; 
-                        if(is_numeric(script[i])){
+                        if(i++ < script.length() && is_numeric(script[i])){
                             tokens.push_back("DICE");
-                            while(is_numeric(script[i])) i++;
+                            while(i < script.length() && is_numeric(script[i])) i++;
                         }
                         i--;
                     } else {
@@ -136,33 +135,17 @@ std::vector<std::string> get_tokens(std::string script){
                     }
                     i--;
 
-                    if(word == "true" || word == "false"){
+                    if(word == "true" || word == "false")
                         tokens.push_back("BOOL"); 
-                    }
-                    else if(word == "while"){
-                        tokens.push_back("WHILE");
-                    }
-                    else if(word == "done"){
-                        tokens.push_back("DONE");
-                    }
-                    else if(word == "break"){
-                        tokens.push_back("BREAK");
-                    }
-                    else if(word == "continue"){
-                        tokens.push_back("CONTINUE");
-                    }
-                    else if(word == "and"){
-                        tokens.push_back("AND");
-                    }
-                    else if(word == "not"){
-                        tokens.push_back("NOT");
-                    }
-                    else if(word == "yield"){
-                        tokens.push_back("YIELD");
-                    }
-                    else {
+                    else if(word == "while"   ) tokens.push_back("WHILE"   );
+                    else if(word == "done"    ) tokens.push_back("DONE"    );
+                    else if(word == "break"   ) tokens.push_back("BREAK"   );
+                    else if(word == "continue") tokens.push_back("CONTINUE");
+                    else if(word == "and"     ) tokens.push_back("AND"     );
+                    else if(word == "not"     ) tokens.push_back("NOT"     );
+                    else if(word == "yield"   ) tokens.push_back("YIELD"   );
+                    else
                         tokens.push_back("VAR");  
-                    }
                 }
             }
         }
@@ -170,7 +153,13 @@ std::vector<std::string> get_tokens(std::string script){
 }
 
 bool is_alphabetic(char c){
-   return (c > 96 && c < 123) || (c > 64 && c < 91) || c == '_';
+    return
+    // lowercase letter (95-122)
+    (c > 96 && c < 123) ||
+    // or uppercase letter (65-90)
+    (c > 64 && c < 91) ||
+    // or underscore
+    c == '_';
 }
 
 bool is_numeric(char c){

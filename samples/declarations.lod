@@ -1,0 +1,4 @@
+# test declarations
+A_1 = 1
+_eV := 2d6
+_eV + 1

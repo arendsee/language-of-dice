@@ -41,10 +41,6 @@ while hp > 0
 done
 # yield is necessary when the value returned by the last event is not the value of interest
 yield turns
-
-# executing this will return the string below, where *mean* and *sd* are
-# keywords representing the mean and standard deviation of the root event 
-'mean: {} sd: {}' mean sd
 ```
 
 Precedence

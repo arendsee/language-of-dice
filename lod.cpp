@@ -1,31 +1,40 @@
 // language-of-dice interpreter
 
 #include "eventstats.h"
+#include "tokenizer.h"
 
 #include <cstdio>
 #include <cstdlib>
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include <ctime>
-using namespace std;
+#include <vector>
 
-string load_script(char * filename);
+std::string load_script(char * filename);
 
 int main(int argc, char ** argv){
     if (argc != 2){
         return 1; 
     }
-    srand(time(0));
-    string script = load_script(argv[1]);
+    std::srand(time(0));
+    std::string script = load_script(argv[1]);
+
+    std::vector<std::string> v = get_tokens(script);
+    for(int i = 0; i < v.size(); i++){
+        std::cout << v[i] << ' ';
+    }
+    std::cout << std::endl;
+
     return 0;
 }
 
-string load_script(char * filename){
-    ifstream t(filename);
-    stringstream ss;
+std::string load_script(char * filename){
+    std::ifstream t(filename);
+    std::stringstream ss;
     ss << t.rdbuf();
-    string script = ss.str();
+    std::string script = ss.str();
     return script;
 }
     

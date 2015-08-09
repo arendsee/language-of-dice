@@ -16,17 +16,58 @@ Language of Dice
 
 ## Examples
 
+ 1. Advantage and disadvantage on a 1d20 roll
+
 ```
-# executing this will return a single result
+radv := max(2d20)
+rdis := min(2d20)
+```
+
+Dice rolls are stored as an integer array. When their values are used in a
+context expecting an integer, their sum is used.
+
+
+ 1. Simulate sum of 4 d6's after dropping the lowest
+
+```
+x := { 4d6 sum(.) - min(.) }
+```
+
+'.' stores the result of the last calculated value within the current block and
+is returned at the end of an event (unless explicitely stated otherwise via the
+*yield* keyword). The above code could be rewritten as
+
+```
+x := {
+        . = 4d6
+        . = sum(.) - min(.)
+        yield .
+     }
+```
+
+ 1. If 1d20 is less than 10, set to 10
+
+```
+x := 1d20 (. < 10) 10
+```
+
+ 1. 
+
+```
 dc    = 15          # assign a constant value
 dmg  := 1d6 + 3     # assign to a random variable (each usage rolls a die)
 crit := dmg + dmg   # assign to an event
-1d20
-    (. == 20) crit  # the '.' carries the value of the initial event
-    (. >  dc) dmg
-# every event yields 0 by default
+atk  := {
+          1d20 
+          if   (. == 20) crit  # parentheses optional
+          elif (. >= dc) dmg
+          else (. <  dc) 0
+        }
+atk
 ```
 
+Braces define a scope. Parentheses could be used in their place, but then the
+'.' binding would leak.
 
 ```
 dmg  := 1d6 + 3
@@ -36,8 +77,8 @@ turns = 0
 while hp > 0
     turns += 1 
     1d20
-        (. == 20) {hp -= crit}
-        (. > dc)  {hp -= dmg}
+    if   (. == 20) hp -= crit
+    elif (. >  dc) hp -= dmg
 done
 # yield is necessary when the value returned by the last event is not the value of interest
 yield turns

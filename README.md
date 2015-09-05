@@ -247,6 +247,43 @@ Often if-elif-else syntax can be replaced with smart use of weighted sets.
 
 ## Examples
 
+ 1. Advantage and disadvantage on a 1d20 roll
+
+```
+radv := max(2d20)
+rdis := min(2d20)
+```
+
+Dice rolls are stored as an integer array. When their values are used in a
+context expecting an integer, their sum is used.
+
+
+ 1. Simulate sum of 4 d6's after dropping the lowest
+
+```
+x := { 4d6 sum(.) - min(.) }
+```
+
+'.' stores the result of the last calculated value within the current block and
+is returned at the end of an event (unless explicitely stated otherwise via the
+*yield* keyword). The above code could be rewritten as
+
+```
+x := {
+        . = 4d6
+        . = sum(.) - min(.)
+        yield .
+     }
+```
+
+ 1. If 1d20 is less than 10, set to 10
+
+```
+x := 1d20 (. < 10) 10
+```
+
+ 1. 
+
 ```
 # executing this will return a single result
 dc   = 15          # assign a constant value
@@ -258,6 +295,8 @@ crit ~ dmg + dmg   # assign to an event
 # every event yields 0 by default
 ```
 
+Braces define a scope. Parentheses could be used in their place, but then the
+'.' binding would leak.
 
 ```
 dmg  ~ 1d6 + 3
@@ -267,8 +306,10 @@ turns = 0
 while hp > 0
     turns += 1 
     1d20
-        (_ == 20) {hp -= crit}
-        (_ > dc)  {hp -= dmg}
+         (_ == 20) {hp -= crit}
+         (_ > dc)  {hp -= dmg}
+    if   (. == 20) hp -= crit
+    elif (. >  dc) hp -= dmg
 done
 # yield is necessary when the value returned by the last event is not the value of interest
 yield turns

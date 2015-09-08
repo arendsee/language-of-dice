@@ -328,6 +328,88 @@ Level | operators
 6     | and or
 7     | = := \*= += -= /= %=
 
+Formal specification
+====================
+
+ 1. datatypes 
+
+digit -> 0 | ... | 9
+
+int -> *digit* *digit* | *digit*
+
+roll -> *int***d***int*
+
+string -> '[^']\*' | "[^"]\*"
+
+array -> [ *expr*, *expr* ] | [ *expr*, *expr*, *expr* ] | ...
+
+array -> [ *int* : *expr*, *int* : *expr* ] | [ *int* : *expr*, *int* : *expr* , *int* : *expr* ] | ...
+
+set -> { *expr*, *expr* } | { *expr*, *expr*, *expr* } | ...
+
+struct -> { *stmt* } | { *stmt*, *stmt* } | ...
+
+struct-access -> *struct***.id**
+
+ 2. builtin functions
+
+ func -> **max** ( *array* )
+
+ func -> **min** ( *array* )
+
+ func -> **sum** ( *array* )
+
+ 3. expressions
+
+factor -> int | roll | array | set | struct | ( *expr* ) | ( *cond* )
+
+term -> term / factor | term * factor | term % factor | factor
+
+expr -> term + factor | term - factor | term
+
+COP -> < | <= | \> | >= | == | !=
+
+cond -> *cond* COP *factor*
+
+cond -> *cond* **and** *cond* | *cond* **or** *cond* | **not** *cond*
+
+cond -> *factor*
+
+ 4. statements
+
+decl-stmt -> **id** = *expr*
+
+gen-stmt -> **id** ~ *expr*
+
+if-stmt -> **if** *cond* *block* **done**
+
+if-stmt -> **if** *cond* *block* **else** *block* **done**
+
+if-stmt -> **if** *cond* *block* [**elif** *cond* *block*]+ **done**
+
+if-stmt -> **if** *cond* *block* [**elif** *cond* *block*]+ **else** *cond* *block* **done**
+
+while-stmt -> **while** *cond* *block* **done**
+
+ 5. non-generator statements
+
+stmt -> *decl-stmt* | *gen-stmt* | *if-stmt* | *while-stmt*
+
+block -> *expr* | *stmt* | *block* *expr* | *block* *stmt*
+
+non-gen-stmt-if-stmt -> **if** *cond* *non-gen-block* **done**
+
+non-gen-stmt-if-stmt -> **if** *cond* *non-gen-block* **else** *non-gen-block* **done**
+
+non-gen-stmt-if-stmt -> **if** *cond* *non-gen-block* [**elif** *cond* *non-gen-block*]+ **done**
+
+non-gen-while-stmt -> **while** *cond* *non-gen-block* **done**
+
+non-gen-stmt -> *decl-stmt* | *gen-stmt* | *non-gen-if-stmt* | *non-gen-while-stmt*
+
+non-gen-block -> *non-gen-stmt* | *non-gen_stmt* + *non-gen-stmt*
+
+
 Tokens
 ======
 
@@ -377,27 +459,9 @@ BREAK    :=  break
 CONTINUE :=  continue
 AND      :=  and
 NOT      :=  not
+OR       :=  or
 YIELD    :=  yield
-```
-
-
-Structures
-==========
-
-```
-ARITHMETIC_OPERATOR := [+-/*%]
-COMPARISON_OPERATOR := [=!]=|[><][=]?
-ASSIGNMENT_OPERATOR := ARITHMETIC_OPERATOR?=
-
-INT     := [0-9]+
-DICE    := [0-9]*d[0-9]+
-BOOL    := true | false
-VARNAME := [A-Za-z_][\w]+
-            
-PRIMATIVE   := INT | DICE | BOOL
-NUMERIC     := INT | DICE
-EXPRESSION  := NUMERIC ARITHMETIC_OPERATOR EXPRESSION | NUMERIC 
-CONDITION   := EXPRESSION COMPARISON_OPERATOR EXPRESSION | BOOL
-DECLARATION := VARNAME = EXPRESSION
-EVENT       := EVENT [CONDITION EVENT]+
+MAX      :=  max(*array* [, N])
+MIN      :=  min(*array* [, N])
+SUM      :=  sum(*array*)
 ```

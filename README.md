@@ -96,8 +96,7 @@ their own builtin syntax, which follows DnD conventions, e.g.
 4d6  // yields the sum of 4 rolled 6-sided dice
 ```
 
-A dice roll will sum the rolled dice when appropriate. However the rolls are
-internally a vector. So you can say
+The rolls are internally a vector. So you can say
 
 ```
 min(4d6)  // yield the lowest of 4, 6-sided dice
@@ -148,11 +147,28 @@ Sets contain mutually exclusive events.
 ```
 y ~ {'a', 'b'} // y is assigned to a random variable that emits 'a', 'b'
 A = y          // 'A' is randomly assigned to one of y's values
-y[1]           // yield the first element of vector y
 ```
 
 In the example above, 'a' and 'b' are emitted with equal probability. If you
-wish one to be more likely than the other, the vector can be weighted. E.g.
+wish one to be more likely than the other, the set can be weighted. E.g.
+
+
+```
+w ~ {1:'a', 3:'b'}  // now 'b' will be emitted 3 or 4 times and 'a' 1 of 4
+// Indexing for sets is based on the sum of the weights
+w[1]  // 'a'
+w[2]  // 'b'
+w[3]  // 'b'
+w[4]  // 'b'
+w[5]  // ERROR, variable 'w' has onlw 4 states
+```
+
+Here the numbers in brackets are NOT indices, but rather numbers. It is as if a
+1d4 is rolled and the numbers 2 and higher yield 'b'. The number in brackets
+corresponds to the 1d4 roll outcome.
+
+Note, the weighting should not increase memory requirement. Writing `y ~
+[100:'a', 300:'b']` allocates space equivalent to `y ~ [1:'a', 3:'b']`.
 
 ### Comparison between arrays and sets
 
@@ -160,22 +176,6 @@ wish one to be more likely than the other, the vector can be weighted. E.g.
 x = [1,2,3] // x is assigned to tuple of 3 values
 x = {1,2,3} // x is randomly assigned to one of 3 values
 ```
-
-```
-y ~ {1:'a', 3:'b'}  // now 'b' will be emitted 3/4 times and 'a' 1/4
-y[1]  // 'a'
-y[2]  // 'b'
-y[3]  // 'b'
-y[4]  // 'b'
-y[5]  // ERROR, variable 'y' has only 4 states
-```
-
-Here the numbers in brackets are NOT indices, but rather numbers. It is as if a
-1d4 is rolled and the numbers 2 and higher yield 'b'. The number is brackets
-corresponds to the 1d4 roll outcome.
-
-Note, the weighting does not increase memory requirement. Writing `y ~
-[100:'a', 300:'b']` allocates space equivalent to `y ~ [1:'a', 3:'b']`.
 
 ### Structures
 

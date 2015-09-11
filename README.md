@@ -295,6 +295,7 @@ context expecting an integer, their sum is used.
 
 ```
 x ~ { sum(4d6) - min(.) }
+x ~ max(4d6, 3)
 ```
 
 '.' stores the result of the last calculated value within the current block and
@@ -383,9 +384,9 @@ struct-access -> *struct***.id**
 
  2. builtin functions
 
- func -> **max** ( *array* )
+ func -> **max** ( *array* [, *int*] )
 
- func -> **min** ( *array* )
+ func -> **min** ( *array* [, *int*] )
 
  func -> **sum** ( *array* )
 

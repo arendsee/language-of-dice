@@ -24,7 +24,7 @@ consumption (if you like to eat outcomes). Of course, if you are interested in
 the statistical distribution of outcomes, you can simulate an enormous number
 of outcomes and then analyze them with the tools of your choice. You might want
 to tweak the compiler to simulate many outcomes every time the executable is
-called, this will be faster than simply called the executable many times.
+called, this will be faster than simply calling the executable many times.
 
 ## Compiler
 
@@ -35,8 +35,12 @@ of the language itself.
 There are several fancy optimizations that can be added to the compiler.
 Mainly, the distribution of many events can be solved exactly. Since lod deals
 exclusively with discrete outcomes, an event can be expressed exactly as a
-probability vector, which will require infinite memory only in occasional
-cases. This compiler optimization step will require a decent mathematician.
+probability vector, which will require infinite memory in certain cases. This
+compiler optimization step will require a decent mathematician.
+
+When exact solutions are not tractable, certain events can be replaced by their
+simulated probability mass functions. This will be expecially simple for events
+that take no arguments.
 
 ## Language Overview
 

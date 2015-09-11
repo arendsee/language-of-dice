@@ -120,15 +120,24 @@ b = x     // assign 'b' to a different outcome
 y ~ x + 4 // create the random variable 'y' which calls 'x' and adds 4 to the outome
 ```
 
+The '\*' operator draws mutiple instances from the generator. So `2 * 1d6` is
+equivalent to `2d6`. Rather than multiplying the outcome of the event, you run
+the event multiple times.
+
+Similarly adding dice simply concatenates the events.
+
 ### Array 
 
 ```
 x = [1d6, 1d6, 1d6, 1d6]
 ```
 
-is identical to
+This is identical to all of the following
 ```
 x = 4d6
+x = 4 * 1d6
+x = 2 * 2d6
+x = 1d6 + 1d6 + 2d6
 ```
 
 Arrays are indexed from 1
@@ -139,6 +148,10 @@ x[1]      // yield first value
 ```
 
 The functions *min*, *max*, and *sum* work on arrays.
+
+*min* and *max* both take an optional integer parameter specifying how many
+elements to take. For example, `max(4d6, 2)` returns an array holding the two
+highest rolls.
 
 ### Sets
 
@@ -187,7 +200,7 @@ expressed as below
 y ~ {
      hp   = 5d6
      name = 'unset'
-     atk  ~ [19:1d6, 1:2d6]
+     atk  ~ {19:1d6, 1:2d6}
     }
 bob = y
 bob.name = 'bob'
@@ -196,18 +209,19 @@ alice.name = 'alice'
 ```
 
 The syntactic difference between a *set* and a *structure* is that every
-element of a set must yield an outcome and a structure must not. For example:
+element of a set must yield an outcome and a structure must not yield an
+outcome. For example:
 
 ```
 s ~ {1, 1d4}     // valid set
 s ~ {x=1, 1d4}   // ERROR - first element returns nothing
 s ~ {x=1, y=1d4} // ERROR - if it is meant to be a set, nothing is returned;
-                 //         if it is meant to be a structure, it has too many elemnts
+                 //         if it is meant to be a structure, it has too many elements
 s ~ {x=1 y=1d4}  // valid structure
 ```
 
 The structure can be thought of as a code block that returns access to the
-variables it contains.
+variables within its scope.
 
 ### Passing arguments to sets, structures and trials
 

@@ -227,12 +227,12 @@ variables within its scope.
 
 ```
 // set with parameters
-s ~ (a,b){1d6 + a, 1d8 + b}
+s ~ par(a,b){1d6 + a, 1d8 + b}
 ```
 
 ```
 // structure with parameters
-s ~ (a,b){
+s ~ par(a,b){
           atk = 1d4 + a
           con = b * (1d10 / 2) + 10
          }
@@ -242,11 +242,12 @@ a = s(1,2)
 
 ```
 // event with parameters
-s ~ (a,b){a * 1d10 + b}
+s ~ par(a,b){a * 1d10 + b}
 ```
 
-The general syntax is ( PAR ) { BLOCK THAT USES PARAMETERS }
+The general syntax is def ( PAR ) { BLOCK THAT USES PARAMETERS }
 
+Whenever a parameterized generator is called, arguments must be given in parentheses.
 
 ### while-do-done
 

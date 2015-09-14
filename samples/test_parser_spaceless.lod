@@ -1,9 +1,0 @@
-# this should be interpreted exactly like the sanely
-# spaced file
-
-x_con=10 x_con++ x_con-- x_con+=1 x_con-=1 x_con/=1
-x_con%=1 y_ran:=1d6 z=false
-
-while(true)1d20(.>10 and not x_con>1){10+2}
-(.<10){10-2}(.>=10){10*2}(.<=10){10/2}
-(.==10){10%2}(.!=10){continue} break done yield x_con

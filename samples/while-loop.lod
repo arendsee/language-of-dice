@@ -1,0 +1,21 @@
+// this script simulates the number of turns required to do 100 damage points
+
+hp = 100
+ac = 15
+dmgdice ~ 1d6
+dmgprof = 3
+turns = 0
+
+while(hp > 0)
+    if (1d20 == 20) {
+        hp -= 2 * dmgdice + dmgprof
+    }
+    elif (. > ac) {
+        hp -= dmgdice + dmgprof
+    } else {
+        hp -= dmgdice / 2
+    }
+    turns++
+done
+
+turns 

@@ -1,0 +1,65 @@
+/*
+    There are complications in creating structures that choose random, random generators
+
+    Elaboration of the issue
+    1) '=' recursively resolves an entire generator tree, returning an atomic value
+    2) '~' assigns the left operand to the top level generator
+    3) but there is no way to assign a variable to a second, or lower, level generator.
+*/
+
+
+/*
+    simple case
+*/
+char ~ {atk ~ 1d6; def ~ 1d8}
+bob = char
+bob.atk  // 1d6 roll
+bob.def  // 1d8 roll
+
+
+/*
+    random, random generators
+    this will randomly select, and then roll, either a 1d6 or a 1d8
+*/
+char ~ {atk ~ {1d6, 1d8}; def ~ {1d8, 1d10}}
+bob = char
+bob.atk
+
+
+
+/*
+    But what if I want to create a character generator class that randomly
+    assigns attack to a die? There is a verbose solution. Here the char class
+    randomly returns one of four simple structures. God is it ever ugly,
+    though. And with more permutations, it would of course explode. I need
+    something better.
+*/
+char ~ {
+        atk ~ 1d6; def ~ 1d8,
+        atk ~ 1d6; def ~ 1d10,
+        atk ~ 1d8; def ~ 1d8,
+        atk ~ 1d8; def ~ 1d10
+       }
+bob = char
+bob.atk
+
+
+/*
+    Possibility 1: a flatten function
+    The flatten immediately removes ONE level of randomness. So atk is bound to
+    either the 1d6 generator OR the 1d8 generator.
+*/
+char ~ {atk ~ flatten({1d6, 1d8}); def ~ flatten({1d8, 1d10})}
+bob = char
+bob.atk
+
+
+/*
+    Possibility 2: a dereference-like '*'
+    This reduces reduces nesting of generators by one level, just like before.
+    I definitely like this more. But will it run into ambiguities? Are there
+    any cases other than assignment when you would need this?
+*/
+char ~ {atk ~ *{1d6, 1d8}; def ~ *{1d8, 1d10}}
+bob = char
+bob.atk

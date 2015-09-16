@@ -1,0 +1,33 @@
+/*
+    This script is a test of random character generators
+*/
+
+// a function for leveling a character
+level ~ par(character, n=1){
+    character.hp += n * character.hitdie
+    character
+}
+
+hobbit ~ {
+    race = 'hobbit'
+    name = {'Frodo', 'Samwise', 'Merry', 'Pippin'}
+    con, dex, str, int, wis, chr = 6 * sum(max(4d6, 3))
+    dex += 2
+    hitdie ~ 1d8
+    hp = 8 + hitdie + con
+}
+
+human ~ {
+    race = 'human'
+    name = {'Aragorn', 'Boromir', 'Faramir'}
+    con, dex, str, int, wis, chr = 6 * sum(max(4d6, 3))
+    str, con += 1d3 - 1, 2 - .
+    hitdie ~ *{1d8, 1d10}
+    hp = 10 + hitdie + con
+}
+
+random_character ~ {hobbit, human}
+
+character = level(random_character, 5)
+
+character

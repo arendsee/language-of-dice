@@ -93,13 +93,14 @@ As the name 'Language of Dice' implies, dice are important in lod and have
 their own builtin syntax, which follows DnD conventions, e.g.
 
 ```
-4d6  // yields the sum of 4 rolled 6-sided dice
+4d6 // yields the 4 outcomes of 4 rolled 6-sided dice
 ```
 
 The rolls are internally a vector. So you can say
 
 ```
-min(4d6)  // yield the lowest of 4, 6-sided dice
+sum(4d6) // yields the sum of the 4 dice
+min(4d6) // yield the lowest of 4, 6-sided dice
 ```
 
 ### Random and non-random variables
@@ -174,6 +175,11 @@ w[2]  // 'b'
 w[3]  // 'b'
 w[4]  // 'b'
 w[5]  // ERROR, variable 'w' has onlw 4 states
+```
+
+```
+// multiplying a set results in multiple draws with replacement
+B = sum(4 * {1:1d6, 3:1d4})
 ```
 
 Here the numbers in brackets are NOT indices, but rather numbers. It is as if a

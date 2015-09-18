@@ -8,11 +8,17 @@ level ~ par(character, n=1){
     character
 }
 
+init ~ sum(max(4d6, 3))
+
 hobbit ~ {
     race = 'hobbit'
     name = {'Frodo', 'Samwise', 'Merry', 'Pippin'}
-    con, dex, str, int, wis, chr = 6 * sum(max(4d6, 3))
-    dex += 2
+    con = init
+    str = init
+    dex = init + 2
+    int = init
+    wis = init
+    chr = init
     hitdie ~ 1d8
     hp = 8 + hitdie + con
 }
@@ -20,10 +26,26 @@ hobbit ~ {
 human ~ {
     race = 'human'
     name = {'Aragorn', 'Boromir', 'Faramir'}
-    con, dex, str, int, wis, chr = 6 * sum(max(4d6, 3))
-    str, con += 1d3 - 1, 2 - .
+    _conmod = 1d3 - 1
+    con = init + _conmod
+    str = init + (2 - _conmod) 
+    dex = init
+    int = init
+    wis = init
+    chr = init
     hitdie ~ *{1d8, 1d10}
     hp = 10 + hitdie + con
+}
+
+wraith ~ {
+    race = 'wraith'
+    con = 16
+    str = 16
+    dex = 12
+    int = 16
+    wis = 14
+    chr = 18
+    hp = 10d12
 }
 
 random_character ~ {hobbit, human}

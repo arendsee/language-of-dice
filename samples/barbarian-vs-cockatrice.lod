@@ -1,0 +1,55 @@
+/*
+Here I describe a level 1 barbarian fighting a cocktrice (stats from Monster
+Manual 5.0). The purpose of the simulation is to predict the probability that
+the barbarian wins before being being turned to bird food or stone.
+*/
+
+cocktrice = {
+    ac = 11
+    hp = 27
+    str = -2
+    dex = 1
+    con = 1
+    int = -4
+    wis = 1
+    cha = -3
+    effect = {
+        name   = 'petrification'
+        action ~ par(chr){
+            succeed = (1d20 + chr.con) < 11
+            if(name in chr.stat) then       // do I even have 'in' yet?
+                chr.hp -= chr.hp * succeed
+                remove(char.stat, name)     // TODO do I want remove and append? 
+            else
+                if not succeed then
+                    append(char.stat, name)
+            done
+        }
+    }
+    dmg ~ par(ac){ac:0, 1:(2d4 + 1), (20 - ac - 1):(1d4 + 1)} // TODO - find cleaner syntax
+}
+
+barbarian = {
+    prof = 2
+    ac   = 15
+    hp   = 19
+    str  = 3
+    dex  = 1
+    con  = 2
+    int  = 0
+    wis  = 1
+    cha  = 1
+    mod  = prof + str
+    dmg  ~ par(ac){(ac-mod):0, (20 - (ac-mod) - 1):(1d8 + prof), 1:(2d8 + prof)} // TODO - find cleaner syntax
+    stat = []
+}
+
+while (barbarian.hp > 0 and cockatrice.hp > 0) do
+    cockatrice.hp -= barbarian.dmg(cockatrice.ac)
+    barbarian.hp  -= cockatrice.dmg(barbarian.ac)
+    if(. != 0 or cockatrice.action.name in barbarian.stat) then
+        cockatrice.action(chr)
+    done
+done
+
+cockatrice.hp == 0

@@ -15,7 +15,7 @@ if exists("b:current_syntax")
 endif
 
 " define keywords
-syn keyword statement min max sum yield while done if else elif
+syn keyword statement min max sum yield while done if else elif done fi do then par
 
 " define constants
 syn match constant '\d\+'

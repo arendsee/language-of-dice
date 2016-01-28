@@ -41,6 +41,7 @@ barbarian = {
     cha  = 1
     mod  = prof + str
     dmg  ~ par(ac){(ac-mod):0, (20 - (ac-mod) - 1):(1d8 + prof), 1:(2d8 + prof)} // TODO - find cleaner syntax
+    // dmg  ~ par(ac){20, (ac-mod):0, 1:(2d8 + prof), :(1d8 + prof)} // TODO - find cleaner syntax
     stat = []
 }
 

@@ -1,16 +1,16 @@
-# set the stats for the two combatants
+// set the stats for the two combatants
 gandalf = {hp = 100; dmg ~ 3d6; AC=15}
 balrog  = {hp = 200; dmg ~ 1d6; AC=17}
 
-# define a weighted random vector which takes two parameters
+// define a weighted random vector which takes two parameters
 attack ~ par(AC, dmg){
-    AC            : 0,     # in AC cases, do no damage
-    1             : 2*dmg  # in one case, do double damage
-    (20 - AC - 1) : dmg,   # otherwise do normal damage
+    AC            : 0,     // in AC cases, do no damage
+    1             : 2*dmg  // in one case, do double damage
+    (20 - AC - 1) : dmg,   // otherwise do normal damage
 }
 
-# in a boolean context (set by 'and') integer variables are TRUE if and only
-# if they are greater than 0.
+// in a boolean context (set by 'and') integer variables are TRUE if and only
+// if they are greater than 0.
 while balrog.hp and gandalf.hp
     balrog.hp  -= attack(balrog.AC, gandalf.dmg)
     gandalf.hp -= attack(gandalf.dmg, balrog.AC)

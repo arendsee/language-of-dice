@@ -107,7 +107,7 @@ min(4d6) // yield the lowest of 4, 6-sided dice
 
 There are two types of variables in lod, random and non-random. A non-random
 variable is exactly like variables in any other programming language. A random
-variable, however, is yields random results every time it is referenced. A
+variable, however, yields random results every time it is referenced. A
 non-random variable may hold the number resulting from rolling a die. A random
 variable represents the die itself.
 
@@ -272,18 +272,20 @@ done
 pretty self-explanatory
 
 ```
-if
-    x < 5
+if 1d20 < 5
     1
-elif
-    x < 10
+elif . < 10
     2
 else
     3
 done
 ```
 
-Often if-elif-else syntax can be replaced with smart use of weighted sets.
+Often if-elif-else syntax can be replaced with smart use of weighted sets. For example:
+
+```
+{4:1, 5:2, 11:3}
+```
 
 ## Examples
 

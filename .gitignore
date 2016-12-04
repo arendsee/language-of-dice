@@ -2,3 +2,9 @@
 *.o
 *.pdf
 *.gch
+
+lod
+Parser.h
+Parser.c
+Lexer.h
+Lexer.c

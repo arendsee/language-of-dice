@@ -7,9 +7,14 @@ Language of Dice
 
  * build complex events from simple events
 
- * easily calculate distributions of outcomes for complex events
+ * calculate distributions of outcomes for complex events
 
- * abstract the math away from the user
+ * abstract away the math (math is the compiler's problem)
+
+## The world
+
+All happenings in the world of lod are mediated by rolls of dice. The world is
+comprised of actions and actors. An actor is an assemblage of states. An action is a roll of dice that may alter actor states.
 
 ## Language description
 

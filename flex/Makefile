@@ -1,10 +1,17 @@
 TARGET=lod
+FILES=Lexer.c Parser.c
 
-all:
-	bison -d lod.y
-	flex lod.l
-	cc -o ${TARGET} lod.tab.c lex.yy.c -lfl
+CC=gcc
+CFLAGS=-lfl
 
-.PHONY: clean
+${TARGET}: ${FILES}
+	${CC} ${CFLAGS} ${FILES} -o ${TARGET}
+
+Lexer.c: Lexer.l
+	flex Lexer.l
+
+Parser.c: Parser.y Lexer.c
+	bison Parser.y
+
 clean:
-	rm -f lex.yy.c ${TARGET}
+	rm -f *.gch *.o *~ Lexer.c Lexer.h Parser.c Parser.h ${TARGET}

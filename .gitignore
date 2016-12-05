@@ -4,7 +4,5 @@
 *.gch
 
 lod
-Parser.h
-Parser.c
-Lexer.h
-Lexer.c
+*.tab.c
+*.tab.h

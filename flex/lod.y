@@ -1,6 +1,5 @@
 %{
 
-#define YYSTYPE int
 int yylex(void);
 void yyerror (char* s);
 #include <ctype.h>
@@ -8,7 +7,12 @@ void yyerror (char* s);
 
 %}
 
+%define api.value.type {int}
 %token NUM
+
+%left '+' '-'
+%left '*' '/'
+%precedence NEG
 
 %%
 
@@ -23,31 +27,28 @@ line
 ;
 
 exp
-  : NUM             { $$ = $1;      }
-  | exp exp '+'     { $$ = $1 + $2; }
-  | exp exp '-'     { $$ = $1 - $2; }
-  | exp exp '*'     { $$ = $1 * $2; }
-  | exp exp '/'     { $$ = $1 / $2; }
+  : NUM               { $$ = $1;      }
+  | exp '+' exp       { $$ = $1 + $3; }
+  | exp '-' exp       { $$ = $1 - $3; }
+  | exp '*' exp       { $$ = $1 * $3; }
+  | exp '/' exp       { $$ = $1 / $3; }
+  | '-' exp %prec NEG { $$ = -$2;     }
+  | '(' exp ')'       { $$ = $2;      }
 ;
 
 %%
 
 int yylex(){
   int c;
-  /* skip white space  */
-  while ((c = getchar()) == ' ' || c == '\t')
-    ;
-  /* process numbers   */
-  if (isdigit (c))
-    {
-      ungetc (c, stdin);
-      scanf ("%d", &yylval);
-      return NUM;
-    }
-  /* return end-of-file  */
-  if (c == EOF)
-    return 0;
-  /* return single chars */
+  while ((c = getchar()) == ' ' || c == '\t') ;
+  if (isdigit (c)) {
+    ungetc (c, stdin);
+    scanf ("%d", &yylval);
+    c = NUM;
+  }
+  if (c == EOF){
+    c = 0;
+  }
   return c;
 }
 

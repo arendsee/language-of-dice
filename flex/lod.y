@@ -1,9 +1,13 @@
 %{
 
-int yylex(void);
-void yyerror (char* s);
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int yylex(void);
+void yyerror (char* s);
+int roll(int n, int s);
 
 %}
 
@@ -13,6 +17,7 @@ void yyerror (char* s);
 %left '+' '-'
 %left '*' '/'
 %precedence NEG
+%left 'd'
 
 %%
 
@@ -27,13 +32,14 @@ line
 ;
 
 exp
-  : NUM               { $$ = $1;      }
-  | exp '+' exp       { $$ = $1 + $3; }
-  | exp '-' exp       { $$ = $1 - $3; }
-  | exp '*' exp       { $$ = $1 * $3; }
-  | exp '/' exp       { $$ = $1 / $3; }
-  | '-' exp %prec NEG { $$ = -$2;     }
-  | '(' exp ')'       { $$ = $2;      }
+  : NUM               { $$ = $1;          }
+  | exp '+' exp       { $$ = $1 + $3;     }
+  | exp '-' exp       { $$ = $1 - $3;     }
+  | exp '*' exp       { $$ = $1 * $3;     }
+  | exp '/' exp       { $$ = $1 / $3;     }
+  | exp 'd' exp       { $$ = roll($1,$3); }
+  | '-' exp %prec NEG { $$ = -$2;         }
+  | '(' exp ')'       { $$ = $2;          }
 ;
 
 %%
@@ -52,10 +58,19 @@ int yylex(){
   return c;
 }
 
+int roll(int n, int s){
+    int sum = 0;
+    for(int i = 1; i <= n; i++){
+        sum += rand() % s + 1; 
+    }
+    return sum;
+}
+
 void yyerror (char* s){
   printf ("%s\n", s);
 }
 
 int main (void){
-  yyparse ();
+  srand(time(NULL));
+  yyparse();
 }

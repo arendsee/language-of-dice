@@ -1,9 +1,10 @@
 TARGET=lod
 
 all:
+	flex lod.l
 	bison -d ${TARGET}.y
-	gcc lod.tab.c lod.tab.h -o lod
+	gcc -lfl lex.yy.c lod.tab.c -o lod
 
 .PHONY: clean
 clean:
-	rm -f lod.tab.c lod.tab.h *.gch lod 
+	rm -f lex.yy.* lod.tab.* *.gch lod a.out

@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "lod.tab.h"
+#include "lex.yy.h"
+
 int yylex(void);
 void yyerror (char* s);
 int roll(int n, int s);
@@ -12,12 +15,11 @@ int roll(int n, int s);
 %}
 
 %define api.value.type {int}
-%token NUM
+%token NUM LPAR RPAR EOL
 
-%left '+' '-'
-%left '*' '/'
-%precedence NEG
-%left 'd'
+%left ADD SUB
+%left MUL DIV
+%left RLL
 
 %%
 
@@ -27,36 +29,21 @@ input
 ;
 
 line
-  : '\n'
-  | exp '\n'  { printf ("%d\n", $1); }
+  : EOL
+  | exp EOL  { printf ("%d\n", $1); }
 ;
 
 exp
   : NUM               { $$ = $1;          }
-  | exp '+' exp       { $$ = $1 + $3;     }
-  | exp '-' exp       { $$ = $1 - $3;     }
-  | exp '*' exp       { $$ = $1 * $3;     }
-  | exp '/' exp       { $$ = $1 / $3;     }
-  | exp 'd' exp       { $$ = roll($1,$3); }
-  | '-' exp %prec NEG { $$ = -$2;         }
-  | '(' exp ')'       { $$ = $2;          }
+  | exp ADD exp       { $$ = $1 + $3;     }
+  | exp SUB exp       { $$ = $1 - $3;     }
+  | exp MUL exp       { $$ = $1 * $3;     }
+  | exp DIV exp       { $$ = $1 / $3;     }
+  | exp RLL exp       { $$ = roll($1,$3); }
+  | LPAR exp RPAR     { $$ = $2;          }
 ;
 
 %%
-
-int yylex(){
-  int c;
-  while ((c = getchar()) == ' ' || c == '\t') ;
-  if (isdigit (c)) {
-    ungetc (c, stdin);
-    scanf ("%d", &yylval);
-    c = NUM;
-  }
-  if (c == EOF){
-    c = 0;
-  }
-  return c;
-}
 
 int roll(int n, int s){
     int sum = 0;

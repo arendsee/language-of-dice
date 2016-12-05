@@ -14,7 +14,8 @@ Language of Dice
 ## The world
 
 All happenings in the world of lod are mediated by rolls of dice. The world is
-comprised of actions and actors. An actor is an assemblage of states. An action is a roll of dice that may alter actor states.
+comprised of actions and actors. An actor is an assemblage of states. An action
+is a roll of dice that may alter actor states.
 
 ## Language description
 
